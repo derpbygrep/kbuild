@@ -31,7 +31,7 @@ jobs:
     - name: Sync Repo (shallow)
       run: |
         cd kernel_build
-        ~/bin/repo sync --no-tags --depth=1
+        ~/bin/repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
 
     - name: Build Kernel
       run: |
