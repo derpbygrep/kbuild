@@ -26,12 +26,12 @@ jobs:
       run: |
         mkdir kernel_build
         cd kernel_build
-        repo init -u https://github.com/grepfox/kernel_manifest -b oneplus/sm8635 --depth=1
+        ~/bin/repo init -u https://github.com/grepfox/kernel_manifest -b oneplus/sm8635 --depth=1
 
-    - name: Sync Repo
+    - name: Sync Repo (shallow)
       run: |
         cd kernel_build
-        repo sync --no-tags 
+        ~/bin/repo sync --no-tags --depth=1
 
     - name: Build Kernel
       run: |
