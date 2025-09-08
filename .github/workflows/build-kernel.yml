@@ -1,0 +1,44 @@
+name: Build and Upload Kernel
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build_kernel:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y repo zip unzip
+
+    - name: Initialize Repo
+      run: |
+        mkdir kernel_build
+        cd kernel_build
+        repo init -u https://github.com/grepfox/kernel_manifest -b oneplus/sm8635
+
+    - name: Sync Repo
+      run: |
+        cd kernel_build
+        repo sync --no-tags
+        repo sync --no-tags
+
+    - name: Build Kernel
+      run: |
+        cd kernel_build
+        ./kernel_platform/oplus/build/oplus_build_kernel.sh pineapple gki O=out
+
+    - name: Zip Output
+      run: |
+        cd kernel_build
+        zip -r kernel_out.zip out
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: kernel-build-output
+        path: kernel_build/kernel_out.zip
