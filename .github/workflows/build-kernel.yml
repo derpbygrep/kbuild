@@ -24,6 +24,7 @@ jobs:
 
     - name: Initialize Repo
       run: |
+        rm -rf kernel_build
         mkdir kernel_build
         cd kernel_build
         ~/bin/repo init -u https://github.com/grepfox/kernel_manifest -b oneplus/sm8635 --depth=1
